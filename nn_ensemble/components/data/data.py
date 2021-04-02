@@ -58,7 +58,15 @@ class Data:
         Returns: A tensorflow dataset.
 
         """
-        return tf.data.Dataset.from_tensor_slices(data).shuffle(buffer_size=data[0].shape[0], seed=0).batch(32)
+
+        def normalize_img(image, label):
+            """Normalizes images: `uint8` -> `float32`."""
+            return tf.cast(image, tf.float32) / 255.0, label
+
+        return tf.data.Dataset.from_tensor_slices(data)\
+            .map(normalize_img, num_parallel_calls=tf.data.experimental.AUTOTUNE) \
+            .shuffle(buffer_size=data[0].shape[0], seed=0)\
+            .batch(32)
 
     @staticmethod
     def visualize_data(dataset: tf.data.Dataset) -> None:
