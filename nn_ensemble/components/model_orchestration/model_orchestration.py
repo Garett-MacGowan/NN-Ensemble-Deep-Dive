@@ -17,8 +17,8 @@ class ModelOrchestrator:
     model_1: List[tf.keras.Sequential]
     model_2: tf.keras.Sequential
 
-    model_1_save_path = Path('nn_ensemble/iterim/model_1')
-    model_2_save_path = Path('nn_ensemble/iterim/model_2')
+    model_1_save_path = Path('interim/model_1')
+    model_2_save_path = Path('interim/model_2')
 
     def orchestrate(self, data: Data, config: ConfigParser):
         # Create model 1 (n models)
@@ -40,7 +40,7 @@ class ModelOrchestrator:
 
     def load_models(self):
         model_1 = []
-        for model_path in glob(Path(self.model_1_save_path, f'model_1_component_*')):
+        for model_path in glob(str(Path(self.model_1_save_path, f'model_1_component_*'))):
             model_1.append(tf.keras.models.load_model(model_path))
 
         model_2 = tf.keras.models.load_model(self.model_2_save_path)
