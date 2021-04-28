@@ -1,3 +1,8 @@
 tensorflow==2.4.1
-matplotlib==3.4.1
 tensorflow-addons==0.12.1
+tensorboard-plugin-profile==2.4.0
+matplotlib==3.4.1
+umap-learn==0.5.1
+pynndescent==0.5.2
+numba==0.53.1
+seaborn==0.11.1

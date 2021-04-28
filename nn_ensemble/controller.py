@@ -6,6 +6,8 @@ from argparse import Namespace
 from nn_ensemble.components.data.data import Data
 from nn_ensemble.components.model_orchestration.model_orchestration import ModelOrchestrator
 
+from nn_ensemble.components.analysis.analyze import Analysis
+
 from nn_ensemble.configurations.arguments import Arguments
 
 from datetime import datetime
@@ -35,14 +37,13 @@ class Controller:
             data.prep_data()
             data.visualize_data(data.training_dataset)
 
-        orchestrator: ModelOrchestrator = ModelOrchestrator()
+        model_orchestrator: ModelOrchestrator = ModelOrchestrator(config=config)
         if args.train:
-            orchestrator.orchestrate(data, config=config)
-        else:
-            orchestrator.load_models()
+            model_orchestrator.orchestrate(data)
 
         if args.analyze:
-            pass
+            analysis: Analysis = Analysis(config=config, data=data, model_orchestrator=model_orchestrator)
+            analysis.analyze()
 
         end_time: datetime = datetime.now()
         print(f'Neural Network Ensemble Deep Dive completed in {end_time - start_time}')

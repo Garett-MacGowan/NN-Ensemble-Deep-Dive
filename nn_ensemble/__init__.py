@@ -10,3 +10,5 @@ try:
 except RuntimeError as e:
     # Memory growth must be set before GPUs have been initialized
     print(e)
+
+tf.config.optimizer.set_jit(True)

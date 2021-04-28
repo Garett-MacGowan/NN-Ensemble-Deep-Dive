@@ -47,8 +47,7 @@ class Data:
                                  data[1][int(split_points * data_len) + 1:])
         return training_data_slice, validation_data_slice
 
-    @staticmethod
-    def _prep_tf_dataset(data: Tuple[np.ndarray, np.ndarray]) -> tf.data.Dataset:
+    def _prep_tf_dataset(self, data: Tuple[np.ndarray, np.ndarray]) -> tf.data.Dataset:
         """
         This function creates a tensorflow dataset given a tuple of numpy arrays with independent and dependent
         variables.
@@ -63,10 +62,14 @@ class Data:
             """Normalizes images: `uint8` -> `float32`."""
             return tf.cast(image, tf.float32) / 255.0, label
 
+        def reshape_data_for_convnet(image, label):
+            return tf.expand_dims(image, -1), label
+
         return tf.data.Dataset.from_tensor_slices(data)\
-            .map(normalize_img, num_parallel_calls=tf.data.experimental.AUTOTUNE) \
+            .map(normalize_img, num_parallel_calls=tf.data.experimental.AUTOTUNE, deterministic=True) \
+            .map(reshape_data_for_convnet, num_parallel_calls=tf.data.experimental.AUTOTUNE, deterministic=True) \
             .shuffle(buffer_size=data[0].shape[0], seed=0)\
-            .batch(32)
+            .batch(int(self.config['Model']['batch_size']))
 
     @staticmethod
     def visualize_data(dataset: tf.data.Dataset) -> None:
