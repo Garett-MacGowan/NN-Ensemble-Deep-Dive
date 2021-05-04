@@ -86,7 +86,7 @@ class Analysis:
         models_weights = np.array(models_weights)
 
         # Run the UMAP on the weight space with large n_neighbors to optimize for global structure
-        mapper = umap.UMAP(n_neighbors=int(models_weights.shape[0] / 2),
+        mapper = umap.UMAP(n_neighbors=int(models_weights.shape[0] * 2/3),
                            n_components=2,
                            random_state=0,
                            metric='euclidean',
@@ -118,7 +118,7 @@ class Analysis:
         s3 = plt.scatter(embedding_segment[:, 0],
                          embedding_segment[:, 1],
                          color=['blue'],
-                         s=0.5)
+                         s=3)
 
         plt.legend((s1, s2, s3),
                    ('Ensemble Weights', 'SWA Checkpoint Weights', 'SWA Final Model Weights'),
