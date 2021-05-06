@@ -25,6 +25,3 @@ pip install -r requirements.txt
 
 ### Tensorflow GPU Setup (Optional)
 - https://www.tensorflow.org/install/gpu
-
-### PyCharm Setup
-- 
