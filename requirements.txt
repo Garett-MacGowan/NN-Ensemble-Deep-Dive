@@ -1,4 +1,4 @@
-tensorflow==2.4.1
+tensorflow==2.4.2
 tensorflow-addons==0.12.1
 tensorboard-plugin-profile==2.4.0
 matplotlib==3.4.1
